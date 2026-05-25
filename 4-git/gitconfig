@@ -1,3 +1,5 @@
 [alias]
 	# Compact, colored graph view (Tree)
 	tree = log --graph --oneline --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%ad%C(reset) %C(white)%s%C(reset) %C(bold yellow)%d%C(reset) %C(dim white)- %an%C(reset)' --date=relative
+	# Sync parent repo and all submodules to latest remotes
+	sync = !git pull --recurse-submodules && git submodule update --remote --merge
