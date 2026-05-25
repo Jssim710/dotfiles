@@ -27,7 +27,13 @@ gcp() {
 
     # Initialize Starship if not already active
     if ! declare -f starship_precmd > /dev/null; then
-        eval "$(starship init bash)"
+        if command -v starship &> /dev/null; then
+            eval "$(starship init bash)"
+        else
+            echo "❌ Error: Starship command not found. Please install it first."
+            echo "You can install it by running: curl -sS https://starship.rs/install.sh | sh"
+            return 1
+        fi
     fi
 
     # Add ~/.terraform/bin to PATH if it exists and is not already there

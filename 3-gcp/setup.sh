@@ -30,4 +30,12 @@ else
     ln -s "$SOURCE_FILE" "$TARGET_FILE"
 fi
 
+# 3. Install Starship if not already installed
+if ! command -v starship &> /dev/null; then
+    echo "Starship not found. Installing..."
+    curl -sS https://starship.rs/install.sh | sh
+else
+    echo "Starship is already installed: $(starship --version | head -n 1)"
+fi
+
 echo "GCP Setup Complete."
