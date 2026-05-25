@@ -10,7 +10,12 @@ This is a collection of environment-agnostic dotfiles and configuration scripts.
 - `5-vscode/`: VS Code settings and shortcuts.
 
 ## Installation
-Most subdirectories contain a `setup.sh` or specific instructions in their respective `README.md` for linking the configurations to your local environment.
+For a full automated setup, use the provided **wizard script** in the root directory:
+```bash
+./setup.sh
+```
+
+Alternatively, you can perform modular installations. Most subdirectories contain a `setup.sh` or specific instructions in their respective `README.md` for linking individual configurations.
 
 ## Available Shell Functions
 The following helpers are provided by the **`3-gcp/`** directory:
