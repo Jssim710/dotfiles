@@ -1,0 +1,84 @@
+# ~/.config/starship.toml
+# Final Configuration with English Comments
+
+# 1. Module Layout (Minimal & Focused)
+format = """
+$directory\
+${custom.gcp_admin}\
+${custom.gcp_user}\
+${custom.gcp_k8s}\
+$line_break\
+$character"""
+
+# Disable native modules that are redundant on remote or single-user systems
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+# ---------------------------------------------------
+# 2. Native Module Configurations
+# ---------------------------------------------------
+[directory]
+style = "bold blue"
+format = "[$path]($style) "
+truncation_length = 3
+truncation_symbol = "…/"
+
+# Disable native gcloud module
+[gcloud]
+disabled = true
+
+# Disable native kubernetes module (using custom for better color control)
+[kubernetes]
+disabled = true
+
+# ---------------------------------------------------
+# 3. [Admin Module] - Displays when ROLE is admin
+# ---------------------------------------------------
+[custom.gcp_admin]
+description = "GCP Admin Warning"
+# Only execute if GCP_ROLE is exactly "admin"
+when = 'test "$GCP_ROLE" = "admin"'
+command = 'echo -e "⚠️  $GCP_PROJECT : \033[1;31m$GCP_ACCOUNT\033[0m"'
+style = "bold blue"
+format = '[$output]($style) '
+shell = ["bash", "--noprofile", "--norc"]
+
+# ---------------------------------------------------
+# 4. [User Module] - Displays when ROLE is user
+# ---------------------------------------------------
+[custom.gcp_user]
+description = "GCP User Info"
+# Only execute if GCP_ROLE is exactly "user"
+when = 'test "$GCP_ROLE" = "user"'
+command = 'echo "☁️  $GCP_PROJECT : $GCP_ACCOUNT"'
+style = "bold blue"
+format = '[$output]($style) '
+
+# ---------------------------------------------------
+# 5. [K8s Mode] - Yellow Cluster & Cyan Namespace
+# ---------------------------------------------------
+[custom.gcp_k8s]
+description = "GCP Info with ANSI colored K8s Context"
+when = 'test "$STARSHIP_KUBE_ENABLED" = "true"'
+command = '''
+  # Get Context and Namespace (Default to N/A if empty)
+  K_INFO=$(kubectl config view --minify -o jsonpath='{.current-context}:{.contexts[0].context.namespace}' 2>/dev/null || echo "N/A:N/A")
+  K_CTX="${K_INFO%:*}"
+  K_NS="${K_INFO#*:}"
+  [ -z "$K_CTX" ] && K_CTX="N/A"
+  [ -z "$K_NS" ] && K_NS="N/A"
+
+  # ANSI Color Codes
+  YELLOW='\033[0;33m'
+  CYAN='\033[0;36m'
+  RESET='\033[0m'
+
+  # Construct output with -e for escaping
+  echo -e "⛵ (${YELLOW}${K_CTX}${RESET}:${CYAN}${K_NS}${RESET})"
+'''
+style = "bold blue"
+format = '[$output]($style) '
+shell = ["bash", "--noprofile", "--norc"]
