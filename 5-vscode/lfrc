@@ -1,6 +1,0 @@
-# lf integration for VS Code
-# This allows opening files in the current VS Code window using 'l' or 'Enter'
-
-cmd open ${{
-    code -r "$f"
-}}

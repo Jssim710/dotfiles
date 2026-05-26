@@ -10,12 +10,7 @@ SOURCE_FILE="$VSCODE_DIR/settings.json"
 TASKS_TARGET_FILE="$CONFIG_DIR/tasks.json"
 TASKS_SOURCE_FILE="$VSCODE_DIR/tasks.json"
 
-# Target directory for lf config
-LF_CONFIG_DIR="$HOME/.config/lf"
-LF_TARGET_FILE="$LF_CONFIG_DIR/lfrc"
-LF_SOURCE_FILE="$VSCODE_DIR/lfrc"
-
-echo "Setting up VSCode & lf configuration..."
+echo "Setting up VSCode configuration..."
 
 # 1. Ensure directories exist
 mkdir -p "$CONFIG_DIR"
@@ -54,27 +49,4 @@ else
     ln -s "$TASKS_SOURCE_FILE" "$TASKS_TARGET_FILE"
 fi
 
-# 4. Symlink lfrc
-read -p "Do you want to use lfrc configuration? [y/N] " use_lfrc
-if [[ ${use_lfrc,,} =~ ^(yes|y)$ ]]; then
-    mkdir -p "$LF_CONFIG_DIR"
-    if [[ -L "$LF_TARGET_FILE" ]]; then
-        echo "Symlink for lfrc already exists. Updating..."
-        ln -sf "$LF_SOURCE_FILE" "$LF_TARGET_FILE"
-    elif [[ -f "$LF_TARGET_FILE" ]]; then
-        echo "Warning: A physical file exists at $LF_TARGET_FILE."
-        read -p "Do you want to backup and replace it with a symlink for lfrc? [y/N] " confirm
-        if [[ ${confirm,,} =~ ^(yes|y)$ ]]; then
-            mv "$LF_TARGET_FILE" "${LF_TARGET_FILE}.bak"
-            ln -s "$LF_SOURCE_FILE" "$LF_TARGET_FILE"
-            echo "Original lfrc backed up to ${LF_TARGET_FILE}.bak"
-        fi
-    else
-        echo "Creating symlink: $LF_TARGET_FILE -> $LF_SOURCE_FILE"
-        ln -s "$LF_SOURCE_FILE" "$LF_TARGET_FILE"
-    fi
-else
-    echo "Skipping lfrc setup."
-fi
-
-echo "VSCode & lf Setup Complete."
+echo "VSCode Setup Complete."

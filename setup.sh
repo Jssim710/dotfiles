@@ -15,6 +15,25 @@ echo "--- Setting up Shell (Bash & Profile) ---"
 # 2. Tool Configurations (Symlinks & Installs)
 echo "--- Setting up Tools ---"
 
+# lf
+LF_SOURCE="$REPO_ROOT/1-general/lfrc"
+LF_TARGET="$HOME/.config/lf/lfrc"
+if [[ -f "$LF_SOURCE" ]]; then
+    echo "[lf]"
+    mkdir -p "$HOME/.config/lf"
+    if [[ -L "$LF_TARGET" ]]; then
+        ln -sf "$LF_SOURCE" "$LF_TARGET"
+    elif [[ -f "$LF_TARGET" ]]; then
+        read -p "Backup and replace existing lfrc? [y/N] " confirm
+        if [[ ${confirm,,} =~ ^(yes|y)$ ]]; then
+            mv "$LF_TARGET" "${LF_TARGET}.bak"
+            ln -s "$LF_SOURCE" "$LF_TARGET"
+        fi
+    else
+        ln -s "$LF_SOURCE" "$LF_TARGET"
+    fi
+fi
+
 # Vim
 if [[ -f "$REPO_ROOT/2-vim/vim-set.sh" ]]; then
     echo "[Vim]"
