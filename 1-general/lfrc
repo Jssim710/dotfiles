@@ -1,0 +1,11 @@
+# Smart open: use VS Code if in its terminal, otherwise gvim
+cmd open ${{
+    if [ "$TERM_PROGRAM" = "vscode" ]; then
+        code -r "$f"
+    else
+        gvim --remote-tab-silent "$f" || gvim "$f"
+    fi
+}}
+
+map l open
+map <enter> open

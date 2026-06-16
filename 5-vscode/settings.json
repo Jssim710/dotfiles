@@ -1,0 +1,60 @@
+{
+    // [general settings]
+    // Do not show the welcome page on startup
+    "workbench.startupEditor": "none",
+    // Do not restore previous sessions (open a clean new window)
+    "window.restoreWindows" : "all",
+    // Always open in fullscreen when opening a new window
+    // "window.newWindowDimensions": "fullscreen",
+    // Always open in maximized when opening a new window
+    "window.newWindowDimensions": "maximized",
+    // If VS Code was closed in fullscreen mode, restore to fullscreen on next launch
+    "window.restoreFullscreen": true,
+    // Disable startup tips
+    "workbench.tips.enabled": false,
+    // Do not show release notes after an update
+    "update.showReleaseNotes": false,
+
+    // [terminal settings]
+    // Automatically copy selected text to the clipboard
+    "terminal.integrated.copyOnSelection": true,
+    // Open new terminals in the editor area instead of the panel
+    "terminal.integrated.defaultLocation": "editor",
+    // Set the default terminal profile for Linux to Bash
+    "terminal.integrated.defaultProfile.linux" : "bash",
+
+    // [vim]
+    // [plugin]
+    "vim.useCtrlKeys": true, // tpope/vim-commentary
+    "vim.surround": true,    // tpope/vim-surround
+    "vim.easymotion": true,  // easymotion/vim-easymotion
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            // Map Space to easymotion prefix (default is \\)
+            "before": ["<space>"],
+            "after": ["leader", "leader"]
+        },
+        {
+            // Open new empty text file with Ctrl+t
+            "before": ["<C-t>"],
+            "commands": ["workbench.action.files.newUntitledFile"]
+        }
+    ],
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            // Open new empty text file with Ctrl+t in insert mode
+            "before": ["<C-t>"],
+            "commands": ["workbench.action.files.newUntitledFile"]
+        }
+    ],
+    // [sync]
+    // Sync Vim's yank/paste with the OS system clipboard
+    "vim.useSystemClipboard": true,
+    // Enable automatic task execution (required for the terminal startup task)
+    "task.allowAutomaticTasks": "on",
+    "window.menuBarVisibility": "compact",
+
+    // [Zen mode]
+    // keep status bar to use vim mode
+    "zenMode.hideStatusBar": false
+}
