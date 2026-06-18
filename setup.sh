@@ -40,7 +40,6 @@ cd "$REPO_ROOT"
 rm -rf ~/.config/Code/User ~/.config/lf
 
 # Use --adopt to link existing files and update them to repo versions if they differ.
-# We don't use git checkout here to avoid reverting our local changes.
 stow --adopt -v -t "$HOME" 1-general 2-vim 3-gcp 4-git 5-vscode
 
 # 3. Run individual setup scripts for post-install logic
