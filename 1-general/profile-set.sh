@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Get the absolute path to the main profile.sh in this repo
-REPO_PROFILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/profile.sh"
+# Get the absolute path to the main profile in this repo
+REPO_PROFILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.profile_dotfiles"
 
 # Target file
 PROFILE_FILE="$HOME/.profile"

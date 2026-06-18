@@ -8,8 +8,8 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 set -o vi
 
 # --- Python Configuration ---
-if [[ -f "$REPO_DIR/1-general/pythonrc" ]]; then
-  export PYTHONSTARTUP="$REPO_DIR/1-general/pythonrc"
+if [[ -f "$REPO_DIR/1-general/.pythonrc" ]]; then
+  export PYTHONSTARTUP="$REPO_DIR/1-general/.pythonrc"
 fi
 
 # --- Aliases ---
@@ -28,8 +28,8 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
 # --- Custom PS1 ---
-if [[ -f "$REPO_DIR/1-general/PS1.sh" ]]; then
-  source "$REPO_DIR/1-general/PS1.sh"
+if [[ -f "$REPO_DIR/1-general/.PS1.sh" ]]; then
+  source "$REPO_DIR/1-general/.PS1.sh"
 fi
 
 # --- GCP & K8s Functions ---

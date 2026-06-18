@@ -1,4 +1,4 @@
-# sourced by ../1-general/bashrc.sh
+# sourced by ../1-general/.bashrc_dotfiles
 
 _update_gcp_vars() {
     # 1. Get the current active project and account explicitly
@@ -30,7 +30,7 @@ gcp() {
         if command -v starship &> /dev/null; then
             eval "$(starship init bash)"
         else
-            echo "❌ Error: Starship command not found. Please install it first."
+            echo -e "\033[0;31mError: Starship command not found. Please install it first.\033[0m"
             echo "You can install it by running: curl -sS https://starship.rs/install.sh | sh"
             return 1
         fi
@@ -45,7 +45,7 @@ gcp() {
 
     _update_gcp_vars
     export PROMPT_COMMAND="starship_precmd"
-    echo "☁️  GCP Workspace Activated."
+    echo -e "\033[0;32m[GCP Workspace Activated]\033[0m"
 }
 
 ungcp() {
@@ -56,8 +56,9 @@ ungcp() {
     unset PROMPT_COMMAND
 
     # 3. Restore original PS1 by sourcing your backup script
-    if [ -f "$REPO_DIR/1-general/PS1.sh" ]; then
-        source "$REPO_DIR/1-general/PS1.sh"
+    # Note: REPO_DIR is defined in the sourcing .bashrc_dotfiles
+    if [ -f "$REPO_DIR/1-general/.PS1.sh" ]; then
+        source "$REPO_DIR/1-general/.PS1.sh"
     else
         # Fallback if .PS1.sh is missing
         export PS1='\u@\h:\w\$ '
@@ -71,5 +72,5 @@ ungcp() {
     # 5. Cleanup aliases and functions
     unset -f gssh 2>/dev/null
 
-    echo "🚫 GCP Workspace Deactivated. Original PS1 restored."
+    echo -e "\033[0;33m[GCP Workspace Deactivated. Original PS1 restored]\033[0m"
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Get the absolute path to the main bashrc.sh in this repo
-REPO_BASHRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/bashrc.sh"
+# Get the absolute path to the main bashrc in this repo
+REPO_BASHRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.bashrc_dotfiles"
 
 # Target file
 BASHRC_FILE="$HOME/.bashrc"

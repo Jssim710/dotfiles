@@ -1,4 +1,4 @@
-# sourced by ../1-general/bashrc.sh
+# sourced by ../1-general/.bashrc_dotfiles
 
 k8s() {
     # Ensure gcp info is loaded first
@@ -13,7 +13,7 @@ k8s() {
 
     source <(kubectl completion bash)
     complete -F __start_kubectl k
-    echo "☸️  Kubernetes Mode Activated."
+    echo -e "\033[0;36m[Kubernetes Mode Activated]\033[0m"
 }
 
 unk8s() {
@@ -21,5 +21,5 @@ unk8s() {
     unset STARSHIP_COMMAND_TIMEOUT
     unalias k 2>/dev/null
     _update_gcp_vars # Restore full email and role
-    echo "🚫 Back to GCP Standard Mode."
+    echo -e "\033[0;33m[Back to GCP Standard Mode]\033[0m"
 }

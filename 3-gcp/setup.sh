@@ -1,41 +1,30 @@
 #!/bin/bash
 
-# Get the absolute path to this directory
-GCP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 # Target directory for Starship config
 CONFIG_DIR="$HOME/.config"
 TARGET_FILE="$CONFIG_DIR/starship.toml"
-SOURCE_FILE="$GCP_DIR/starship.toml"
 
-echo "Setting up GCP & Starship configuration..."
+echo -e "\033[0;32mSetting up GCP & Starship configuration...\033[0m"
 
 # 1. Ensure ~/.config exists
 mkdir -p "$CONFIG_DIR"
 
-# 2. Symlink starship.toml
-if [[ -L "$TARGET_FILE" ]]; then
-    echo "Symlink for starship.toml already exists. Updating..."
-    ln -sf "$SOURCE_FILE" "$TARGET_FILE"
-elif [[ -f "$TARGET_FILE" ]]; then
-    echo "Warning: A physical file exists at $TARGET_FILE."
-    read -p "Do you want to backup and replace it with a symlink? [y/N] " confirm
+# 2. Backup existing starship.toml if it's not a link
+if [[ -f "$TARGET_FILE" && ! -L "$TARGET_FILE" ]]; then
+    echo -e "\033[0;33mWarning: A physical file exists at $TARGET_FILE.\033[0m"
+    read -p "Do you want to backup it? [y/N] " confirm
     if [[ ${confirm,,} =~ ^(yes|y)$ ]]; then
         mv "$TARGET_FILE" "${TARGET_FILE}.bak"
-        ln -s "$SOURCE_FILE" "$TARGET_FILE"
-        echo "Original file backed up to ${TARGET_FILE}.bak"
+        echo -e "\033[0;33mOriginal file backed up to ${TARGET_FILE}.bak\033[0m"
     fi
-else
-    echo "Creating symlink: $TARGET_FILE -> $SOURCE_FILE"
-    ln -s "$SOURCE_FILE" "$TARGET_FILE"
 fi
 
 # 3. Install Starship if not already installed
 if ! command -v starship &> /dev/null; then
-    echo "Starship not found. Installing..."
+    echo -e "\033[0;32mStarship not found. Installing...\033[0m"
     curl -sS https://starship.rs/install.sh | sh
 else
-    echo "Starship is already installed: $(starship --version | head -n 1)"
+    echo -e "\033[0;32mStarship is already installed: $(starship --version | head -n 1)\033[0m"
 fi
 
-echo "GCP Setup Complete."
+echo -e "\033[0;32mGCP Setup Complete.\033[0m"

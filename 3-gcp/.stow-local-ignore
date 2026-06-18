@@ -1,0 +1,8 @@
+setup\.sh
+README\.md
+.*-set\.sh
+.*-config\.sh
+gcp-set\.sh
+k8s-set\.sh
+.*\.bak
+\.stow-local-ignore
