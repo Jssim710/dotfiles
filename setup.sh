@@ -36,11 +36,18 @@ fi
 echo -e "\033[0;32mLinking configuration files with Stow...\033[0m"
 cd "$REPO_ROOT"
 
-# Clean up potential failed Stow attempts (empty folders in target)
-rm -rf ~/.config/Code/User ~/.config/lf
+# Clean up any leftover top-level script links so Stow runs cleanly and idempotently
+rm -f "$HOME/setup.sh" "$HOME/bashrc.sh" "$HOME/profile.sh" "$HOME/bashrc-set.sh" "$HOME/zshrc-set.sh" "$HOME/profile-set.sh" "$HOME/vim-set.sh" "$HOME/gcp-set.sh" "$HOME/k8s-set.sh" "$HOME/ipython_config.py"
 
-# Use --adopt to link existing files and update them to repo versions if they differ.
-stow --adopt -v -t "$HOME" 1-general 2-vim 3-gcp 4-git 5-vscode
+# Run Stow with ignore rules for helper scripts and non-dot files
+stow --adopt -v -t "$HOME" \
+  --ignore="setup\.sh" \
+  --ignore=".*-set\.sh" \
+  --ignore="bashrc\.sh" \
+  --ignore="profile\.sh" \
+  --ignore="^ipython_config\.py$" \
+  --ignore="README.*" \
+  1-general 2-vim 3-gcp 4-git 5-vscode
 
 # 3. Run individual setup scripts for post-install logic
 echo -e "\033[0;32mRunning post-install scripts...\033[0m"
@@ -49,6 +56,13 @@ echo -e "\033[0;32mRunning post-install scripts...\033[0m"
 echo -e "\033[0;36m--- Shell Injections ---\033[0m"
 [[ -f "$REPO_ROOT/1-general/profile-set.sh" ]] && bash "$REPO_ROOT/1-general/profile-set.sh"
 [[ -f "$REPO_ROOT/1-general/bashrc-set.sh" ]] && bash "$REPO_ROOT/1-general/bashrc-set.sh"
+[[ -f "$REPO_ROOT/1-general/zshrc-set.sh" ]] && bash "$REPO_ROOT/1-general/zshrc-set.sh"
+
+# Python & IPython Setup
+if [[ -f "$REPO_ROOT/1-general/ipython_config.py" ]]; then
+    mkdir -p "$HOME/.ipython/profile_default"
+    ln -sfn "$REPO_ROOT/1-general/ipython_config.py" "$HOME/.ipython/profile_default/ipython_config.py"
+fi
 
 # Tool specific setup (Plugins, binaries, etc.)
 echo -e "\033[0;36m--- Tool Specific Setup ---\033[0m"
@@ -58,6 +72,4 @@ echo -e "\033[0;36m--- Tool Specific Setup ---\033[0m"
 [[ -f "$REPO_ROOT/5-vscode/setup.sh" ]] && bash "$REPO_ROOT/5-vscode/setup.sh"
 
 echo -e "\033[0;32mFull setup complete!\033[0m"
-echo "To apply changes to your current session, run:"
-echo "  source ~/.profile"
-echo "  source ~/.bashrc"
+echo "To apply changes, run: source ~/.profile && (source ~/.bashrc 2>/dev/null || source ~/.zshrc 2>/dev/null)"

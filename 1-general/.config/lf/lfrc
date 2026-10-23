@@ -1,11 +1,33 @@
-# Smart open: use VS Code if in its terminal, otherwise gvim
+# ~/.config/lf/lfrc
+# Configuration for lf file manager
+
+# 1. Basic Settings
+set preview true
+set hidden true
+set drawbox true
+set icons false
+set ignorecase true
+
+# 2. Keybindings & Custom Open Command
 cmd open ${{
-    if [ "$TERM_PROGRAM" = "vscode" ]; then
+    # Smart Opener: Use VS Code if connected via SSH/Remote or inside VS Code terminal, otherwise fallback to gvim/vim
+    if [ -n "$SSH_CONNECTION" ] || [ -n "$VSCODE_PID" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
         code -r "$f"
     else
-        gvim --remote-tab-silent "$f" || gvim "$f"
+        if command -v gvim &> /dev/null; then
+            gvim --remote-tab-silent "$f" || gvim "$f" &
+        else
+            vim "$f"
+        fi
     fi
 }}
 
+# Map keys to smart opener
+map e $$EDITOR "$f"
+map i $$PAGER "$f"
 map l open
 map <enter> open
+map o open
+
+# Navigation shortcuts
+map gh cd ~

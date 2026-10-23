@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get the absolute path to the main bashrc in this repo
-REPO_BASHRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.bashrc_dotfiles"
+REPO_BASHRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/bashrc.sh"
 
 # Target file
 BASHRC_FILE="$HOME/.bashrc"
@@ -27,4 +27,4 @@ fi
   echo "$MARKER_END"
 } >> "$BASHRC_FILE"
 
-echo "Done. Please restart your shell or run 'source ~/.bashrc'."
+echo -e "\033[0;32mBashrc injection complete.\033[0m"

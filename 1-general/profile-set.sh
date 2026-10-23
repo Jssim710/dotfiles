@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get the absolute path to the main profile in this repo
-REPO_PROFILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.profile_dotfiles"
+REPO_PROFILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/profile.sh"
 
 # Target file
 PROFILE_FILE="$HOME/.profile"
@@ -27,4 +27,4 @@ fi
   echo "$MARKER_END"
 } >> "$PROFILE_FILE"
 
-echo "Done. Please log out and log back in, or run 'source ~/.profile'."
+echo -e "\033[0;32mProfile injection complete.\033[0m"
